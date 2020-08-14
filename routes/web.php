@@ -14,10 +14,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('template');
+    return view('welcome');
 });
-Route::get('/add_user', function () {
-    return view('user.create');
-});
+
+// Pertanyaan
 Route::get('/pertanyaan','PertanyaanController@index');
 Route::get('/pertanyaan/create','PertanyaanController@create');
+
+// User
+// Route::get('/register', 'UserController@create');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
