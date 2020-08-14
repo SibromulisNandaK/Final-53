@@ -15,6 +15,10 @@ class CreatePertanyaanTagTable extends Migration
     {
         Schema::create('pertanyaan_tag', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('pertanyaan_id');
+            $table->bigInteger('tag_id');
+            $table->foreign('pertanyaan_id')->references('id')->on('pertanyaan');
+            $table->foreign('tag_id')->references('id')->on('tag');
             $table->timestamps();
         });
     }
