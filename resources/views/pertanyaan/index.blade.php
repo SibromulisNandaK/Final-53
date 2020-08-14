@@ -14,6 +14,7 @@
                     <h2>
                         Data Pertanyaan
                     </h2>
+                    <a href="/pertanyaan/create" style="margin-top:15px;" class="btn btn-success">Buat Pertanyaan</a>
                     <ul class="header-dropdown m-r--5">
                         <li class="dropdown">
                             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
