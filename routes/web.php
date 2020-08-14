@@ -22,4 +22,8 @@ Route::get('/pertanyaan','PertanyaanController@index');
 Route::get('/pertanyaan/create','PertanyaanController@create');
 
 // User
-Route::get('/register', 'UserController@create');
+// Route::get('/register', 'UserController@create');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
