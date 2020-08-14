@@ -14,10 +14,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    return view('welcome');
+});
+Route::get('/pertanyaan', function () {
     return view('template');
 });
-Route::get('/add_user', function () {
-    return view('user.create');
-});
-Route::get('/pertanyaan','PertanyaanController@index');
-Route::get('/pertanyaan/create','PertanyaanController@create');
+Auth::routes();
+Route::get('/all', 'BerandaController@all');
+Route::get('/pertanyaan/{id}', 'BerandaController@show');
+Route::post('/vote/store', 'VotePertanyaanController@store');
+
+Route::get('/home', 'HomeController@index')->name('home');

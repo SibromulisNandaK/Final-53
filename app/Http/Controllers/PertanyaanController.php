@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Pertanyaan;
 use Illuminate\Http\Request;
 
 class PertanyaanController extends Controller
 {
+    public function all()
+    {
+        // 
+    }
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +28,7 @@ class PertanyaanController extends Controller
      */
     public function create()
     {
-        return view('pertanyaan.create');
+        // 
     }
 
     /**
@@ -45,7 +50,7 @@ class PertanyaanController extends Controller
      */
     public function show($id)
     {
-        //
+        // 
     }
 
     /**
