@@ -18,8 +18,13 @@ class BerandaController extends Controller
     public function show($id)
     {
         $pertanyaan = Pertanyaan::find($id);
+        // $jawaban = 
         $user = Auth::user();
         $cekVote = DB::table('vote_pertanyaan')->where(['pertanyaan_id' => $id, 'user_id' => $user->id])->exists();
-        return view('beranda.show', compact(['pertanyaan', 'user', 'cekVote']));
+        $jumlahUpvote = DB::table('vote_pertanyaan')->where(['vote' => 'upvote', 'pertanyaan_id' => $id])->count();
+        $jumlahDownvote = DB::table('vote_pertanyaan')->where(['vote' => 'downvote', 'pertanyaan_id' => $id])->count();
+
+
+        return view('beranda.show', compact(['pertanyaan', 'user', 'cekVote', 'jumlahUpvote', 'jumlahDownvote']));
     }
 }

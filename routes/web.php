@@ -16,12 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/pertanyaan', function () {
-    return view('template');
-});
 Auth::routes();
+// Beranda
 Route::get('/all', 'BerandaController@all');
 Route::get('/pertanyaan/{id}', 'BerandaController@show');
 Route::post('/vote/store', 'VotePertanyaanController@store');
+Route::post('/vote_jawaban/store', 'VoteJawabanController@store');
+
+// Pertanyaan
+Route::get('/pertanyaan', 'PertanyaanController@index');
+Route::get('/pertanyaan/create', 'PertanyaanController@create');
 
 Route::get('/home', 'HomeController@index')->name('home');

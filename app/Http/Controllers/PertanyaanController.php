@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 class PertanyaanController extends Controller
 {
-    public function all()
+    public function __construct()
     {
-        // 
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -18,7 +18,8 @@ class PertanyaanController extends Controller
      */
     public function index()
     {
-        return view('pertanyaan.index');
+        $pertanyaans = Pertanyaan::all();
+        return view('pertanyaans.index', compact('pertanyaans', $pertanyaans));
     }
 
     /**
@@ -39,7 +40,11 @@ class PertanyaanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pertanyaan = new Pertanyaan;
+        $pertanyaan->judul = $request["judul"];
+        $pertanyaan->isi   = $request["isi"];
+        $pertanyaan->save(); /// ini disimpan dengan perintah save()
+        return redirect('/pertanyaan')->with('success', 'Posting pertanyaan Berhasil');
     }
 
     /**
@@ -50,7 +55,8 @@ class PertanyaanController extends Controller
      */
     public function show($id)
     {
-        // 
+        $pertanyaan = Pertanyaan::find($id);
+        return view('pertanyaan.show', compact('pertanyaan$', $pertanyaan));
     }
 
     /**
@@ -61,7 +67,8 @@ class PertanyaanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $pertanyaans = Pertanyaan::find($id);
+        return view('pertanyaans.edit', compact('pertanyaans', $pertanyaans));
     }
 
     /**
@@ -73,7 +80,11 @@ class PertanyaanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $update = Pertanyaan::where('id', $id)->update([
+            "judul" => $request["judul"],
+            "isi" => $request["isi"]
+        ]);
+        return redirect('/pertanyaans')->with('success', 'Berhasil update');
     }
 
     /**
@@ -84,6 +95,7 @@ class PertanyaanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Pertanyaan::destroy($id);
+        return redirect('/pertanyaans')->with('success', 'Berhasil dihapus');
     }
 }
