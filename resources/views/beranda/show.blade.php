@@ -3,14 +3,16 @@
     
 @section('content')
     <div class="row">
-        <div class="col-md-8 p-4">
+        <div class="col-md-8 m-l-35">
             {{-- menampilkan pertanyaan --}}
             <div class="card">
-                <div class="card-body">
+                <div class="body">
                     <h3>{{ $pertanyaan->judul }}</h3>
+                    <p class="font-bold">Ditanyakan oleh {{ $pertanyaan->user->name }}</p>
+                    <hr>
                     <div>{{ $pertanyaan->isi }}</div>
-                    <div class="mt-5">
-                        @if ($cekVote != null && $cekVote['vote'] == 'upvote')
+                    <div class="m-t-10">
+                        @if ($cekVote != null && $cekVote->vote == 'upvote')
                         {{ $jumlahUpvote }} <a href="#" class="vote-pertanyaan"><b>upvote</b></a>
                         @else
                         {{ $jumlahUpvote }} <a href="#" class="vote-pertanyaan">upvote</a>
@@ -18,7 +20,7 @@
                         @if ($user->poin_reputasi < 15)
                         {{ $jumlahDownvote }} <span class="text-muted">downvote</span>
                         @else
-                            @if ($cekVote != null && $cekVote['vote'] != 'upvote')
+                            @if ($cekVote != null && $cekVote->vote == 'downvote')
                             {{ $jumlahDownvote }} <a href="#" class="vote-pertanyaan"><b>downvote</b></a>
                             @else
                             {{ $jumlahDownvote }} <a href="#" class="vote-pertanyaan">downvote</a>
@@ -38,11 +40,11 @@
             {{-- menampilkan jawaban dari pertanyaan --}}
             @foreach ($pertanyaan->jawaban as $jawaban)
                 <div class="card">
-                    <div class="card-body">
-                        <p>{{ $jawaban->isi }}</p>
+                    <div class="body">
                         <div>
-                            replied by : {{ $jawaban->user->name }}
+                            <span class="font-bold">{{ $jawaban->user->name }}</span> membalas :
                         </div>
+                        <p class="m-t-10">{{ $jawaban->isi }}</p>
                         <div class="mt-5">                            
                             <a href="#" class="vote-jawaban">upvote</a>
                             @if ($user->poin_reputasi < 15)
@@ -76,8 +78,8 @@
         $('.vote-jawaban').on('click', function(e){
             e.preventDefault();
             $('.jawaban-vote').attr('value', $(this).text());
-            $('.jawaban-vote').closest('form').submit();
-            // console.log($(this).text());
+            $(this).siblings('div').children('form').submit();
+            // console.log($(this).closest('form'));
         })
     </script>
 @endpush

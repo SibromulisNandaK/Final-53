@@ -12,6 +12,7 @@ class VotePertanyaanController extends Controller
 {
     public function store(Request $request)
     {
+        // dd($request->all());
         // ambil request user_id, pertanyaan_id
         $user_id = $request->user_id;
         $pertanyaan_id = $request->pertanyaan_id;
@@ -19,9 +20,11 @@ class VotePertanyaanController extends Controller
         // siapkan data pertanyaan dan user pemilik pertanyaan
         $pertanyaan = Pertanyaan::find($pertanyaan_id);
         $userOwner = User::find($pertanyaan->user_id);
+        // dd($userOwner);
 
         // cek apakah vote pilihan user sudah ada di dalam database
         $cekVote = DB::table('vote_pertanyaan')->where(['user_id' => $user_id, 'pertanyaan_id' => $pertanyaan_id])->first();
+        // dd($cekVote);
 
         // jika belum ada, tambahkan vote ke dalam database
         if ($cekVote == null) {
@@ -72,6 +75,6 @@ class VotePertanyaanController extends Controller
             VotePertanyaan::where('id', $cekVote->id)->delete();
         }
 
-        return redirect("/pertanyaan/$pertanyaan_id");
+        return redirect("/home/pertanyaan/$pertanyaan_id");
     }
 }

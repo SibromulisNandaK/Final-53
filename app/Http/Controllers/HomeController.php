@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Pertanyaan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $pertanyaan = Pertanyaan::all();
+        return view('beranda.all', compact('pertanyaan'));
+    }
+
+    public function show($id)
+    {
+        $pertanyaan = Pertanyaan::find($id);
+        $user = Auth::user();
+        $cekVote = DB::table('vote_pertanyaan')->where(['pertanyaan_id' => $id, 'user_id' => $user->id])->first();
+        $jumlahUpvote = DB::table('vote_pertanyaan')->where(['vote' => 'upvote', 'pertanyaan_id' => $id])->count();
+        $jumlahDownvote = DB::table('vote_pertanyaan')->where(['vote' => 'downvote', 'pertanyaan_id' => $id])->count();
+        // dd($cekVote);
+
+        return view('beranda.show', compact(['pertanyaan', 'user', 'cekVote', 'jumlahUpvote', 'jumlahDownvote']));
     }
 }

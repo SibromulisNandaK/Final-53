@@ -17,14 +17,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 Auth::routes();
-// Beranda
-Route::get('/all', 'BerandaController@all');
-Route::get('/pertanyaan/{id}', 'BerandaController@show');
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home/pertanyaan/{id}', 'HomeController@show');
 Route::post('/vote/store', 'VotePertanyaanController@store');
 Route::post('/vote_jawaban/store', 'VoteJawabanController@store');
 
 // Pertanyaan
 Route::get('/pertanyaan', 'PertanyaanController@index');
 Route::get('/pertanyaan/create', 'PertanyaanController@create');
-
-Route::get('/home', 'HomeController@index')->name('home');

@@ -75,6 +75,6 @@ class VoteJawabanController extends Controller
             VoteJawaban::where('id', $cekVote->id)->delete();
         }
 
-        return redirect("/pertanyaan/$pertanyaan_id");
+        return redirect("/home/pertanyaan/$pertanyaan_id");
     }
 }
