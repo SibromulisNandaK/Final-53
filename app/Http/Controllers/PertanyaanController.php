@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Pertanyaan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PertanyaanController extends Controller
 {
@@ -18,8 +19,8 @@ class PertanyaanController extends Controller
      */
     public function index()
     {
-        $pertanyaans = Pertanyaan::all();
-        return view('pertanyaans.index', compact('pertanyaans', $pertanyaans));
+        $pertanyaans = Pertanyaan::where('user_id', Auth::id())->get();
+        return view('pertanyaan.index', compact('pertanyaans', $pertanyaans));
     }
 
     /**
@@ -29,7 +30,7 @@ class PertanyaanController extends Controller
      */
     public function create()
     {
-        // 
+        return view('pertanyaan.create', ['user_id' => Auth::id()]);
     }
 
     /**
@@ -40,9 +41,11 @@ class PertanyaanController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $pertanyaan = new Pertanyaan;
         $pertanyaan->judul = $request["judul"];
         $pertanyaan->isi   = $request["isi"];
+        $pertanyaan->user_id = $request['user_id'];
         $pertanyaan->save(); /// ini disimpan dengan perintah save()
         return redirect('/pertanyaan')->with('success', 'Posting pertanyaan Berhasil');
     }

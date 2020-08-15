@@ -25,4 +25,9 @@ Route::post('/vote_jawaban/store', 'VoteJawabanController@store');
 
 // Pertanyaan
 Route::get('/pertanyaan', 'PertanyaanController@index');
+Route::post('/pertanyaan', 'PertanyaanController@store');
 Route::get('/pertanyaan/create', 'PertanyaanController@create');
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
