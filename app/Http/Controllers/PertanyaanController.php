@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Pertanyaan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PertanyaanController extends Controller
 {
-    
     public function __construct()
     {
         $this->middleware('auth');
@@ -18,8 +19,8 @@ class PertanyaanController extends Controller
      */
     public function index()
     {
-        $pertanyaans=Pertanyaan::all();
-        return view('pertanyaans.index',compact('pertanyaans',$pertanyaans));
+        $pertanyaans = Pertanyaan::where('user_id', Auth::id())->get();
+        return view('pertanyaan.index', compact('pertanyaans', $pertanyaans));
     }
 
     /**
@@ -29,7 +30,7 @@ class PertanyaanController extends Controller
      */
     public function create()
     {
-        return view('pertanyaan.create');
+        return view('pertanyaan.create', ['user_id' => Auth::id()]);
     }
 
     /**
@@ -40,11 +41,13 @@ class PertanyaanController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $pertanyaan = new Pertanyaan;
         $pertanyaan->judul = $request["judul"];
         $pertanyaan->isi   = $request["isi"];
+        $pertanyaan->user_id = $request['user_id'];
         $pertanyaan->save(); /// ini disimpan dengan perintah save()
-        return redirect('/pertanyaan')->with('success','Posting pertanyaan Berhasil');
+        return redirect('/pertanyaan')->with('success', 'Posting pertanyaan Berhasil');
     }
 
     /**
@@ -55,9 +58,8 @@ class PertanyaanController extends Controller
      */
     public function show($id)
     {
-        $pertanyaan=Pertanyaan::find($id);
-        return view('pertanyaan.show',compact('pertanyaan$',$pertanyaan));
-        //
+        $pertanyaan = Pertanyaan::find($id);
+        return view('pertanyaan.show', compact('pertanyaan$', $pertanyaan));
     }
 
     /**
@@ -68,9 +70,8 @@ class PertanyaanController extends Controller
      */
     public function edit($id)
     {
-        $pertanyaans=Pertanyaan::find($id);
-        return view('pertanyaans.edit',compact('pertanyaans',$pertanyaans));
-
+        $pertanyaans = Pertanyaan::find($id);
+        return view('pertanyaans.edit', compact('pertanyaans', $pertanyaans));
     }
 
     /**
@@ -82,10 +83,11 @@ class PertanyaanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $update=Pertanyaan::where('id',$id)->update([
-            "judul"=>$request["judul"],
-            "isi"=>$request["isi"]]);
-        return redirect('/pertanyaans')->with('success','Berhasil update');
+        $update = Pertanyaan::where('id', $id)->update([
+            "judul" => $request["judul"],
+            "isi" => $request["isi"]
+        ]);
+        return redirect('/pertanyaans')->with('success', 'Berhasil update');
     }
 
     /**
@@ -96,8 +98,7 @@ class PertanyaanController extends Controller
      */
     public function destroy($id)
     {
-        Question::destroy($id);
-        return redirect('/pertanyaans')->with('success','Berhasil dihapus');
-
+        Pertanyaan::destroy($id);
+        return redirect('/pertanyaans')->with('success', 'Berhasil dihapus');
     }
 }
